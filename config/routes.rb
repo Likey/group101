@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   
-  resources :groups
+  resources :groups do
+    resources :posts
+  end
   
   root 'groups#index'   # 把 localhost:3000/groups 設定為首頁
   
