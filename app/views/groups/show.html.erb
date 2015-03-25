@@ -1,7 +1,10 @@
 <div class="col-md-12">
   <div class="group">
     <%= link_to("New Post", new_group_post_path(@group), :class => "btn btn-warning pull-right") %>
+    
+    <% if current_user && @group.editable_by?(current_user) %>
     <%= link_to("Edit", edit_group_path(@group), :class => "btn btn-primary pull-right") %>
+    <% end %>
   </div>
   <h2> <%= @group.title %> </h2>
   <p> <%= @group.description %> </p>
@@ -17,15 +20,19 @@
       <% @posts.each do |post| %>
         <tr>
           <td> <%= post.content %> </td>
-          <td> <%= link_to("Edit", 
+          <td> 
+            <% if current_user && post.editable_by?(current_user) %>
+              <%= link_to("Edit", 
                           edit_group_post_path(post.group, post), 
-                          :class => "btn btn-default btn-xs") %> </td>
+                          :class => "btn btn-default btn-xs") %>
           
-          <td> <%= link_to("Delete", 
+              <%= link_to("Delete", 
                           group_post_path(post.group, post), 
                           :class => "btn btn-default btn-xs", 
                           :method => :delete, 
-                          data: { confirm: "Are you sure?" }) %> </td>
+                          data: { confirm: "Are you sure?" }) %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
